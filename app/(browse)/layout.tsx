@@ -1,11 +1,15 @@
 import { ReactNode } from 'react'
-import { Navbar } from './(home)/_components/navbar'
+import { Navbar } from './_components/navbar'
+import { Sidebar } from './_components/sidebar'
 
 export default function BrowseLayout({ children }: { children: ReactNode }) {
   return (
     <div>
       <Navbar />
-      <div className="flex h-full pt-20">{children}</div>
+      <div className="flex h-full pt-20">
+        <Sidebar />
+        {children}
+      </div>
     </div>
   )
 }
