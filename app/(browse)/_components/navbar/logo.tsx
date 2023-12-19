@@ -14,7 +14,7 @@ export function Logo() {
     <Link href="/">
       <div className="flex items-center gap-x-4 hover:opacity-75 transition">
         <div className="bg-white rounded-full p-1 mr-12 shrink-0 lg:mr-0 lg:shrink">
-          <Image src="/spooky.svg" alt="next-twitch" width={32} height={32} />
+          <Image src="/twitch.svg" alt="next-twitch" width={32} height={32} />
         </div>
         <div className={cn('hidden lg:block', font.className)}>
           <p className="text-lg font-semibold">NEXT_TWITCH</p>

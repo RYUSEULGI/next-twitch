@@ -6,7 +6,16 @@ export async function getFollowUser() {
     const user = await getUser()
 
     const followUsers = await db.follow.findMany({
-      where: { followerId: user.id },
+      where: {
+        followerId: user.id,
+        following: {
+          blockedBy: {
+            none: {
+              blockerId: user.id,
+            },
+          },
+        },
+      },
       include: { following: true },
     })
 
@@ -29,13 +38,15 @@ export async function isFollowingUser(id: string) {
     }
 
     if (otherUser.id === user.id) {
-      return true
+      return false
     }
 
-    const existingFollow = await db.follow.findFirst({
+    const existingFollow = await db.follow.findUnique({
       where: {
-        followerId: user.id,
-        followingId: otherUser.id,
+        followerId_followingId: {
+          followerId: user.id,
+          followingId: otherUser.id,
+        },
       },
     })
 
@@ -60,10 +71,12 @@ export async function followUser(id: string) {
     throw new Error('자기 자신은 팔로우 할 수 없습니다.')
   }
 
-  const existingFollow = await db.follow.findFirst({
+  const existingFollow = await db.follow.findUnique({
     where: {
-      followerId: user.id,
-      followingId: otherUser.id,
+      followerId_followingId: {
+        followerId: user.id,
+        followingId: otherUser.id,
+      },
     },
   })
 
@@ -100,10 +113,12 @@ export async function unFollowUser(id: string) {
     throw new Error('자기 자신은 언팔로우 할 수 없습니다.')
   }
 
-  const existingFollow = await db.follow.findFirst({
+  const existingFollow = await db.follow.findUnique({
     where: {
-      followerId: user.id,
-      followingId: otherUser.id,
+      followerId_followingId: {
+        followerId: user.id,
+        followingId: otherUser.id,
+      },
     },
   })
 
