@@ -3,7 +3,7 @@ import { SignInButton, UserButton, currentUser } from '@clerk/nextjs'
 import { Clapperboard } from 'lucide-react'
 import Link from 'next/link'
 
-export async function Actions() {
+export async function LoginButton() {
   const user = await currentUser()
 
   return (
