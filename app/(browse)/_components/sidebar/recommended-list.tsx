@@ -8,7 +8,7 @@ interface Props {
   recommended: User[]
 }
 
-export function Recommended({ recommended }: Props) {
+export function RecommendedList({ recommended }: Props) {
   const { collapsed } = useSidebar((state) => state)
 
   const showLabel = !collapsed && recommended.length > 0
