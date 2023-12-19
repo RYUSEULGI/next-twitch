@@ -1,11 +1,34 @@
+import { getUser } from './auth-service'
 import { db } from './db'
 
 export async function getRecommended() {
   await new Promise((resolve) => setTimeout(resolve, 3000))
 
-  const data = await db.user.findMany({
-    orderBy: { createdAt: 'desc' },
-  })
+  let userId
 
-  return data
+  try {
+    const user = await getUser()
+    userId = user.id
+  } catch (error) {
+    userId = null
+  }
+
+  if (userId) {
+    const data = await db.user.findMany({
+      where: {
+        NOT: {
+          id: userId,
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    })
+
+    return data
+  } else {
+    const data = await db.user.findMany({
+      orderBy: { createdAt: 'desc' },
+    })
+
+    return data
+  }
 }

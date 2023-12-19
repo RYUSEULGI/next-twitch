@@ -17,7 +17,7 @@ export function Recommended({ recommended }: Props) {
     <div>
       {showLabel && (
         <div className="pl-6 mb-4">
-          <p className="text-sm text-muted-foreground">추천 리스트</p>
+          <p className="text-sm text-muted-foreground">추천 채널</p>
         </div>
       )}
 
