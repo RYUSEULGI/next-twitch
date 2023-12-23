@@ -2,7 +2,7 @@ import { getUser } from '@/lib/auth-service';
 import { getStreamByUserId } from '@/lib/stream-service';
 import { ToggleCard } from './_components/toggle-card';
 
-export default async function DashboardUserChatPage() {
+export default async function DashboardUserChatsPage() {
   const user = await getUser();
   const stream = await getStreamByUserId(user.id);
 
