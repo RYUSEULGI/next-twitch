@@ -1,16 +1,9 @@
 'use client';
 
 import { createIngress } from '@/actions/ingress';
+import { Dialog } from '@/components/ui/Dialog';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from '@/components/ui/dialog';
 import {
   Select,
   SelectContent,
@@ -18,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
+
 import { IngressInput } from 'livekit-server-sdk';
 import { AlertTriangle } from 'lucide-react';
 import { ElementRef, useRef, useState, useTransition } from 'react';
@@ -28,7 +22,7 @@ const WHIP = String(IngressInput.WHIP_INPUT);
 
 type IngressType = typeof RTMP | typeof WHIP;
 
-export default function ConnectModal() {
+export function ConnectModal() {
   const buttonRef = useRef<ElementRef<'button'>>(null);
 
   const [isPending, startTransition] = useTransition();
@@ -53,13 +47,13 @@ export default function ConnectModal() {
 
   return (
     <Dialog>
-      <DialogTrigger>
+      <Dialog.Trigger>
         <Button variant="primary">생성하기</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>연결 생성하기</DialogTitle>
-        </DialogHeader>
+      </Dialog.Trigger>
+      <Dialog.Content>
+        <Dialog.Header>
+          <Dialog.Title>연결 생성하기</Dialog.Title>
+        </Dialog.Header>
         <Select disabled={isPending} value={ingressType} onValueChange={onChange}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="선택해주세요" />
@@ -75,14 +69,14 @@ export default function ConnectModal() {
           <AlertDescription>경고입니다.</AlertDescription>
         </Alert>
         <div className="flex justify-between">
-          <DialogClose ref={buttonRef} asChild>
+          <Dialog.Close ref={buttonRef}>
             <Button variant="ghost">취소</Button>
-          </DialogClose>
+          </Dialog.Close>
           <Button variant="primary" disabled={isPending} onClick={onSubmit}>
             생성
           </Button>
         </div>
-      </DialogContent>
+      </Dialog.Content>
     </Dialog>
   );
 }

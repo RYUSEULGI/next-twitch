@@ -1,6 +1,7 @@
 import { getUser } from '@/lib/auth-service';
 import { getStreamByUserId } from '@/lib/stream-service';
-import ConnectModal from './_components/connect-modal';
+
+import { ConnectModal } from './_components/connect-modal';
 import { KeyCard } from './_components/key-card';
 import { UrlCard } from './_components/url-card';
 
