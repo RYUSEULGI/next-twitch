@@ -1,14 +1,14 @@
-import { getFollowUser } from '@/lib/follow-service'
-import { getRecommended } from '@/lib/recommended-service'
+import { getFollowUser } from '@/lib/follow-service';
+import { getRecommended } from '@/lib/recommended-service';
 
-import { FollowingList, FollowingSkeleton } from './following-list'
-import { RecommendedList, RecommendedSkeleton } from './recommended-list'
-import { Toggle } from './toggle'
-import { Wrapper } from './wrapper'
+import { FollowingList, FollowingSkeleton } from './following-list';
+import { RecommendedList, RecommendedSkeleton } from './recommended-list';
+import { Toggle } from './toggle';
+import { Wrapper } from './wrapper';
 
 export async function Sidebar() {
-  const recommended = await getRecommended()
-  const following = await getFollowUser()
+  const recommended = await getRecommended();
+  const following = await getFollowUser();
 
   return (
     <Wrapper>
@@ -18,7 +18,7 @@ export async function Sidebar() {
         <RecommendedList recommended={recommended} />
       </div>
     </Wrapper>
-  )
+  );
 }
 
 export const SidebarSkeleton = () => {
@@ -27,5 +27,5 @@ export const SidebarSkeleton = () => {
       <FollowingSkeleton />
       <RecommendedSkeleton />
     </aside>
-  )
-}
+  );
+};

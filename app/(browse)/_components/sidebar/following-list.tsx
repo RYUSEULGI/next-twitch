@@ -1,18 +1,18 @@
-'use client'
+'use client';
 
-import { useSidebar } from '@/store/use-sidebar'
-import { Follow, User } from '@prisma/client'
-import { UserItem, UserItemSkeleton } from './user-item'
+import { useSidebar } from '@/store/use-sidebar';
+import { Follow, User } from '@prisma/client';
+import { UserItem, UserItemSkeleton } from './user-item';
 
 interface Props {
-  items: (Follow & { following: User })[]
+  items: (Follow & { following: User & { stream: { isLive: boolean } | null } })[];
 }
 
 export function FollowingList({ items }: Props) {
-  const { collapsed } = useSidebar((state) => state)
+  const { collapsed } = useSidebar((state) => state);
 
   if (!items.length) {
-    return null
+    return null;
   }
 
   return (
@@ -29,12 +29,12 @@ export function FollowingList({ items }: Props) {
             key={`following-${follow.id}`}
             username={follow.following.username}
             image={follow.following.imageUrl}
-            isLive={true}
+            isLive={follow.following.stream?.isLive || false}
           />
         ))}
       </ul>
     </div>
-  )
+  );
 }
 
 export const FollowingSkeleton = () => {
@@ -44,5 +44,5 @@ export const FollowingSkeleton = () => {
         <UserItemSkeleton key={i} />
       ))}
     </ul>
-  )
-}
+  );
+};

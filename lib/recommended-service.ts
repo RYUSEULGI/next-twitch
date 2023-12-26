@@ -1,16 +1,16 @@
-import { getUser } from './auth-service'
-import { db } from './db'
+import { getUser } from './auth-service';
+import { db } from './db';
 
 export async function getRecommended() {
-  await new Promise((resolve) => setTimeout(resolve, 3000))
+  await new Promise((resolve) => setTimeout(resolve, 3000));
 
-  let userId
+  let userId;
 
   try {
-    const user = await getUser()
-    userId = user.id
+    const user = await getUser();
+    userId = user.id;
   } catch (error) {
-    userId = null
+    userId = null;
   }
 
   if (userId) {
@@ -19,38 +19,52 @@ export async function getRecommended() {
         AND: [
           {
             NOT: {
-              id: userId,
-            },
+              id: userId
+            }
           },
           {
             NOT: {
               followedBy: {
                 some: {
-                  followerId: userId,
-                },
-              },
-            },
+                  followerId: userId
+                }
+              }
+            }
           },
           {
             NOT: {
               blockedBy: {
                 some: {
-                  blockerId: userId,
-                },
-              },
-            },
-          },
-        ],
+                  blockerId: userId
+                }
+              }
+            }
+          }
+        ]
       },
-      orderBy: { createdAt: 'desc' },
-    })
+      include: {
+        stream: {
+          select: {
+            isLive: true
+          }
+        }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
 
-    return data
+    return data;
   } else {
     const data = await db.user.findMany({
-      orderBy: { createdAt: 'desc' },
-    })
+      include: {
+        stream: {
+          select: {
+            isLive: true
+          }
+        }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
 
-    return data
+    return data;
   }
 }

@@ -1,17 +1,19 @@
-'use client'
+'use client';
 
-import { useSidebar } from '@/store/use-sidebar'
-import { User } from '@prisma/client'
-import { UserItem, UserItemSkeleton } from './user-item'
+import { useSidebar } from '@/store/use-sidebar';
+import { User } from '@prisma/client';
+import { UserItem, UserItemSkeleton } from './user-item';
 
 interface Props {
-  recommended: User[]
+  recommended: (User & {
+    stream: { isLive: boolean } | null;
+  })[];
 }
 
 export function RecommendedList({ recommended }: Props) {
-  const { collapsed } = useSidebar((state) => state)
+  const { collapsed } = useSidebar((state) => state);
 
-  const showLabel = !collapsed && recommended.length > 0
+  const showLabel = !collapsed && recommended.length > 0;
 
   return (
     <div>
@@ -27,12 +29,12 @@ export function RecommendedList({ recommended }: Props) {
             key={`user-${user.id}`}
             username={user.username}
             image={user.imageUrl}
-            isLive={true}
+            isLive={user.stream?.isLive || false}
           />
         ))}
       </ul>
     </div>
-  )
+  );
 }
 
 export const RecommendedSkeleton = () => {
@@ -42,5 +44,5 @@ export const RecommendedSkeleton = () => {
         <UserItemSkeleton key={i} />
       ))}
     </ul>
-  )
-}
+  );
+};
