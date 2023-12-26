@@ -2,23 +2,15 @@
 
 import { createIngress } from '@/actions/ingress';
 import { Dialog } from '@/components/ui/Dialog';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
 
 import { IngressInput } from 'livekit-server-sdk';
-import { AlertTriangle } from 'lucide-react';
 import { ElementRef, useRef, useState, useTransition } from 'react';
 import { toast } from 'sonner';
+import { ConnectSelectBox } from './connect-select-box';
 
-const RTMP = String(IngressInput.RTMP_INPUT);
-const WHIP = String(IngressInput.WHIP_INPUT);
+export const RTMP = String(IngressInput.RTMP_INPUT);
+export const WHIP = String(IngressInput.WHIP_INPUT);
 
 type IngressType = typeof RTMP | typeof WHIP;
 
@@ -54,20 +46,7 @@ export function ConnectModal() {
         <Dialog.Header>
           <Dialog.Title>연결 생성하기</Dialog.Title>
         </Dialog.Header>
-        <Select disabled={isPending} value={ingressType} onValueChange={onChange}>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="선택해주세요" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={RTMP}>RTMP</SelectItem>
-            <SelectItem value={WHIP}>WHIP</SelectItem>
-          </SelectContent>
-        </Select>
-        <Alert>
-          <AlertTriangle className="h-4 w-4" />
-          <AlertTitle>경고 !</AlertTitle>
-          <AlertDescription>경고입니다.</AlertDescription>
-        </Alert>
+        <ConnectSelectBox disabled={isPending} value={ingressType} onChange={onChange} />
         <div className="flex justify-between">
           <Dialog.Close ref={buttonRef}>
             <Button variant="ghost">취소</Button>
