@@ -1,6 +1,6 @@
-import { getFollowUser } from '@/lib/follow-service';
 import { getRecommended } from '@/lib/recommended-service';
 
+import { getFollowUser } from '@/lib/follow-service';
 import { FollowingList, FollowingSkeleton } from './following-list';
 import { RecommendedList, RecommendedSkeleton } from './recommended-list';
 import { Toggle } from './toggle';

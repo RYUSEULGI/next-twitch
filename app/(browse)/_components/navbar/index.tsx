@@ -1,6 +1,6 @@
-import { LoginButton } from './login-button'
-import { Logo } from './logo'
-import { Search } from './search'
+import { LoginButton } from './login-button';
+import { Logo } from './logo';
+import { Search } from './search';
 
 export function Navbar() {
   return (
@@ -9,5 +9,5 @@ export function Navbar() {
       <Search />
       <LoginButton />
     </nav>
-  )
+  );
 }

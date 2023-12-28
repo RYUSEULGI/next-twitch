@@ -13,11 +13,11 @@ generator client {
 }
 
 model User{
-  id              String    @id @default(uuid())
-  username        String    @unique
-  imageUrl        String    @db.Text
-  externalUserId  String    @unique
-  bio             String?   @db.Text
+  id              String    @id @default(cuid())
+  name            String?
+  email           String?   @unique
+  emailVerified   DateTime?
+  image           String?
 
   follwing        Follow[]  @relation("Following")
   followedBy      Follow[]  @relation("FollowedBy")
@@ -25,10 +25,54 @@ model User{
   blocking        Block[]   @relation("Blocking")
   blockedBy       Block[]   @relation("BlockedBy")
 
+  Subscribing     Subscribe[]   @relation("Subscribing")
+  SubscribedBy    Subscribe[]   @relation("SubscribedBy")
+
   stream          Stream?
+
+  accounts        Account[]
+  sessions        Session[]
 
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
 }
 
 model Stream{
@@ -83,4 +127,20 @@ model Block{
   @@unique([blockerId, blockedId])
   @@index([blockerId])
   @@index([blockedId])
+}
+
+model Subscribe{
+  id              String    @id @default(uuid())
+  subscriberId    String
+  subscribedId    String
+
+  subscriber      User      @relation(name: "Subscribing", fields: [subscriberId], references: [id], onDelete: Cascade)
+  subscribed      User      @relation(name: "SubscribedBy", fields: [subscribedId], references: [id], onDelete: Cascade)
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([subscriberId, subscribedId])
+  @@index([subscriberId])
+  @@index([subscribedId])
 }

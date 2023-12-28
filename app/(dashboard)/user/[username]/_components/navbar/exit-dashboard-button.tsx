@@ -1,7 +1,6 @@
-import { Button } from '@/components/ui/button'
-import { UserButton } from '@clerk/nextjs'
-import { LogOut } from 'lucide-react'
-import Link from 'next/link'
+import { Button } from '@/components/ui/button';
+import { LogOut } from 'lucide-react';
+import Link from 'next/link';
 
 export async function ExitDashboardButton() {
   return (
@@ -17,7 +16,6 @@ export async function ExitDashboardButton() {
           나가기
         </Link>
       </Button>
-      <UserButton afterSignOutUrl="/" />
     </div>
-  )
+  );
 }
